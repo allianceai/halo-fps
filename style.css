@@ -1,0 +1,284 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Arial', sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+#gameCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* HUD Container */
+#hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Stats Panel (Top Left) */
+#statsPanel {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 250px;
+    font-family: 'Courier New', monospace;
+    color: #0ff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    z-index: 1001;
+}
+
+.stat-label {
+    font-size: 11px;
+    font-weight: bold;
+    margin-top: 10px;
+    letter-spacing: 2px;
+    color: #0ff;
+}
+
+.stat-bar {
+    width: 200px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #0ff;
+    margin-top: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    width: 100%;
+    transition: width 0.1s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #fff;
+}
+
+.bar-fill.shields {
+    background: linear-gradient(90deg, #0099ff, #0055ff);
+    box-shadow: inset 0 0 10px rgba(0, 153, 255, 0.5), 0 0 10px rgba(0, 153, 255, 0.3);
+}
+
+.bar-fill.health {
+    background: linear-gradient(90deg, #ff4444, #990000);
+    box-shadow: inset 0 0 10px rgba(255, 68, 68, 0.5), 0 0 10px rgba(255, 68, 68, 0.3);
+}
+
+/* Crosshair */
+#crosshair {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1002;
+}
+
+.crosshair-v, .crosshair-h {
+    position: absolute;
+    background: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+}
+
+.crosshair-v {
+    width: 2px;
+    height: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.crosshair-h {
+    width: 20px;
+    height: 2px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Ammo Panel (Bottom Right) */
+#ammoPanel {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    font-family: 'Courier New', monospace;
+    color: #0ff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    text-align: right;
+    z-index: 1001;
+}
+
+.ammo-text {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Grenade Panel (Bottom Left) */
+#grenadePanel {
+    position: fixed;
+    bottom: 30px;
+    left: 20px;
+    font-family: 'Courier New', monospace;
+    color: #0f0;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    z-index: 1001;
+}
+
+.grenade-text {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Controls Info */
+#controlsInfo {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Courier New', monospace;
+    color: #888;
+    text-shadow: 0 0 5px rgba(136, 136, 136, 0.3);
+    font-size: 12px;
+    text-align: center;
+    z-index: 1001;
+}
+
+/* Status Display */
+.status-text {
+    position: fixed;
+    top: 120px;
+    left: 20px;
+    font-family: 'Courier New', monospace;
+    color: #0f0;
+    font-size: 12px;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+/* General HUD text styling */
+#hud {
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Vignette effect */
+#gameCanvas::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.4);
+    z-index: 999;
+}
+
+/* Motion Tracker / Radar */
+#radarCanvas {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 220, 80, 0.7);
+    box-shadow: 0 0 10px rgba(0, 220, 80, 0.4), inset 0 0 8px rgba(0, 220, 80, 0.1);
+    pointer-events: none;
+    z-index: 1001;
+}
+
+/* Damage vignette (red flash on hit) */
+#damageVignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1050;
+    box-shadow: inset 0 0 0 0 rgba(255, 0, 0, 0);
+    transition: box-shadow 0.05s ease-in;
+}
+
+#damageVignette.active {
+    box-shadow: inset 0 0 80px 30px rgba(220, 0, 0, 0.55);
+    transition: none;
+}
+
+/* Death / Win screen overlays */
+#deathScreen,
+#winScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    pointer-events: auto;
+}
+
+.overlay-content {
+    text-align: center;
+    font-family: 'Courier New', monospace;
+}
+
+.overlay-title {
+    font-size: 64px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    text-shadow: 0 0 30px currentColor;
+    margin-bottom: 24px;
+}
+
+.overlay-subtitle {
+    font-size: 22px;
+    color: #ccc;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+.overlay-btn {
+    background: transparent;
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    letter-spacing: 2px;
+    padding: 12px 28px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background 0.15s;
+}
+
+.overlay-btn:hover {
+    background: rgba(0, 255, 136, 0.15);
+}

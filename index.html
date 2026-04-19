@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halo CE FPS - Browser</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- HUD Overlay -->
+    <div id="hud">
+        <!-- Top Left: Shields & Health -->
+        <div id="statsPanel">
+            <div class="stat-label">SHIELDS</div>
+            <div class="stat-bar">
+                <div id="shieldBar" class="bar-fill shields"></div>
+            </div>
+            
+            <div class="stat-label">HEALTH</div>
+            <div class="stat-bar">
+                <div id="healthBar" class="bar-fill health"></div>
+            </div>
+        </div>
+
+        <!-- Center: Crosshair -->
+        <div id="crosshair">
+            <div class="crosshair-v"></div>
+            <div class="crosshair-h"></div>
+        </div>
+
+        <!-- Motion Tracker / Radar (above ammo, bottom-right) -->
+        <canvas id="radarCanvas" width="120" height="120"></canvas>
+
+        <!-- Bottom Right: Ammo -->
+        <div id="ammoPanel">
+            <div id="ammoDisplay" class="ammo-text">Assault Rifle - 60/300</div>
+        </div>
+
+        <!-- Bottom Left: Grenades -->
+        <div id="grenadePanel">
+            <div id="grenadeDisplay" class="grenade-text">Grenades: 4/4</div>
+        </div>
+
+        <!-- Center Bottom: Controls Info -->
+        <div id="controlsInfo">
+            <span>CLICK: Fire | R: Reload | 1/2: Switch Weapon | G: Grenade | SPACE: Jump | F: Enter/Exit Vehicle</span>
+        </div>
+
+        <!-- Status Display (temporary) -->
+        <div id="statusDisplay" class="status-text"></div>
+    </div>
+
+    <!-- Damage Vignette (red flash on hit) -->
+    <div id="damageVignette"></div>
+
+    <!-- Death Screen -->
+    <div id="deathScreen" style="display:none;">
+        <div class="overlay-content">
+            <div class="overlay-title" style="color:#ff2222;">YOU DIED</div>
+            <div id="deathCountdown" class="overlay-subtitle">Respawning in 3...</div>
+        </div>
+    </div>
+
+    <!-- Win Screen -->
+    <div id="winScreen" style="display:none;">
+        <div class="overlay-content">
+            <div class="overlay-title" style="color:#00ff88;">MISSION COMPLETE</div>
+            <div id="winStats" class="overlay-subtitle"></div>
+            <button class="overlay-btn" onclick="location.reload()">Press R to Restart</button>
+        </div>
+    </div>
+
+    <!-- Babylon.js -->
+    <script src="https://cdn.jsdelivr.net/npm/babylonjs@6.0.0/babylon.js"></script>
+    <!-- Procedural audio -->
+    <script src="audio.js"></script>
+    <!-- Ring-World outdoor level geometry -->
+    <script src="level.js"></script>
+    <!-- Warthog vehicle system -->
+    <script src="vehicle.js"></script>
+    <!-- Enemy AI System -->
+    <script src="ai-behaviors.js"></script>
+    <script src="enemies.js"></script>
+    <script src="enemy-spawner.js"></script>
+    <!-- Main game -->
+    <script src="game.js"></script>
+</body>
+</html>
